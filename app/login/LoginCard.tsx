@@ -282,7 +282,7 @@ export default function LoginCard() {
               className="
                 w-full
                 h-11
-                mt-8
+                mt-4
                 rounded-xl
                 bg-[#FFC928]
                 hover:bg-yellow-400
