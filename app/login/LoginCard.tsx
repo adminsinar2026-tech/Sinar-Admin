@@ -28,32 +28,44 @@ export default function LoginCard() {
   const [loading, setLoading] =
     useState(false);
 
-  async function handleLogin() {
-    if (!username.trim() || !password.trim()) {
-      alert("Username dan Password wajib diisi.");
-      return;
-    }
 
-    setLoading(true);
+async function handleLogin() {
+  if (!username.trim() || !password.trim()) {
+    alert("Username dan Password wajib diisi.");
+    return;
+  }
 
-    const { data, error } = await supabase
-      .from("User")
-      .select("*")
-      .eq("username", username)
-      .eq("password", password)
-      .single();
+  setLoading(true);
 
-    setLoading(false);
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
 
-    if (error || !data) {
-      alert("Username atau Password salah.");
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message || "Username atau Password salah.");
       return;
     }
 
     localStorage.setItem("isLogin", "true");
-
     router.push("/home");
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Tidak dapat terhubung ke server.");
+  } finally {
+    setLoading(false);
   }
+}
+
 
   return (
     <section
