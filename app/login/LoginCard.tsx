@@ -257,6 +257,23 @@ export default function LoginCard() {
               )}
             </div>
 
+            {/* Forgot Password */}
+
+<div className="flex justify-end mt-3">
+  <Link
+    href="/forgot-password"
+    className="
+      text-sm
+      font-semibold
+      text-[#4D7B38]
+      hover:text-[#FFC928]
+      transition-colors
+    "
+  >
+    Forgot Password?
+  </Link>
+</div>
+
             {/* Button */}
 
             <button
