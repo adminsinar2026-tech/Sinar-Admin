@@ -37,6 +37,61 @@ body {
   background: #3d632e;
 }
 
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  nav,
+  footer,
+  button,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  main {
+    background: white !important;
+    color: black !important;
+    min-height: auto !important;
+  }
+
+  section {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  section > div:first-child {
+    display: none !important;
+  }
+
+  section > div:nth-child(2) {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  h1, h2 {
+    color: black !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  th, td {
+    border: 1px solid #999 !important;
+    color: black !important;
+    padding: 8px !important;
+  }
+}
+
 /* =========================
    FIX CHROME AUTOFILL
 ========================= */
