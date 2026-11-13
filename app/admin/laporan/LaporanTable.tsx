@@ -112,21 +112,25 @@ export default function LaporanTable({
 
       {/* Table */}
 
-      <div
-        className="
-          max-h-[330px]
-          overflow-y-auto
-          overflow-x-auto
-          rounded-2xl
-          border
-          border-gray-100
-          bg-white
-          shadow-md
-          text-[12px]
-        "
-      >
+<div
+  className="
+    max-h-[330px]
+    overflow-y-auto
+    overflow-x-auto
+    rounded-2xl
+    border
+    border-gray-100
+    bg-white
+    shadow-md
+    text-[12px]
+    print:max-h-none
+    print:overflow-visible
+    print:shadow-none
+    print:border-0
+  "
+>
 
-        <table className="w-full">
+        <table className="w-full print:w-full">
 
           <thead className="sticky top-0 z-10 bg-[#4D7B38]">
 
@@ -156,9 +160,9 @@ export default function LaporanTable({
                 Status
               </th>
 
-              <th className="px-5 py-4 text-center text-[13px] font-semibold">
-                Aksi
-              </th>
+<th className="px-5 py-4 text-center text-[13px] font-semibold print:hidden">
+  Aksi
+</th>
 
             </tr>
 
@@ -299,7 +303,7 @@ export default function LaporanTable({
 
                   {/* Aksi */}
 
-                  <td className="px-5 py-4 text-center">
+                  <td className="px-5 py-4 text-center print:hidden">
 
                     <button
                       onClick={() => onSelect(item)}
