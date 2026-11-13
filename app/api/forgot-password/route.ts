@@ -70,19 +70,23 @@ export async function POST(request: Request) {
     const resetLink =
       `${origin}/reset-password?token=${token}`;
 
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: "admin.sinar2026@gmail.com",
-      subject: "Reset Password Website SINAR",
-      text: `Klik link berikut untuk membuat password baru:\n\n${resetLink}\n\nLink berlaku selama 30 menit.`,
-      html: `
-        <h2>Reset Password SINAR</h2>
-        <p>Klik tombol berikut untuk membuat password baru.</p>
-        <a href="${resetLink}">Reset Password</a>
-        <p>Link berlaku selama 30 menit.</p>
-        <p>Jika kamu tidak meminta reset password, abaikan email ini.</p>
-      `,
-    });
+
+const info = await transporter.sendMail({
+  from: process.env.SMTP_FROM,
+  to: "admin.sinar2026@gmail.com",
+  subject: "Reset Password Website SINAR",
+  text: `Klik link berikut untuk membuat password baru:\n\n${resetLink}\n\nLink berlaku selama 30 menit.`,
+  html: `
+    <h2>Reset Password SINAR</h2>
+    <p>Klik tombol berikut untuk membuat password baru.</p>
+    <a href="${resetLink}">Reset Password</a>
+    <p>Link berlaku selama 30 menit.</p>
+    <p>Jika kamu tidak meminta reset password, abaikan email ini.</p>
+  `,
+});
+
+console.log("RESET EMAIL SENT:", info.messageId);
+console.log("RESET EMAIL RESPONSE:", info.response);
 
     return NextResponse.json({ message: responseMessage });
   } catch (error) {
