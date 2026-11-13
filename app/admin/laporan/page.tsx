@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Printer, FileSpreadsheet } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -35,6 +35,10 @@ export default function LaporanPage() {
     getData();
   }, []);
 
+  function handlePrint() {
+  window.print();
+}
+
   async function getData() {
     const { data, error } = await supabase
       .from("laporan")
@@ -67,6 +71,60 @@ export default function LaporanPage() {
       status: "",
     });
   }
+
+  function handleExportExcel() {
+  if (data.length === 0) {
+    alert("Belum ada data laporan untuk diekspor.");
+    return;
+  }
+
+  const headers = [
+    "ID",
+    "Tanggal",
+    "Jenis",
+    "Kategori",
+    "Deskripsi",
+    "Jumlah",
+    "Status",
+  ];
+
+  const rows = data.map((item) => [
+    item.id,
+    item.tanggal,
+    item.jenis,
+    item.kategori,
+    item.deskripsi,
+    item.jumlah,
+    item.status,
+  ]);
+
+  const csvContent = [
+    headers,
+    ...rows,
+  ]
+    .map((row) =>
+      row
+        .map((value) =>
+          `"${String(value ?? "").replace(/"/g, '""')}"`
+        )
+        .join(";")
+    )
+    .join("\r\n");
+
+  const blob = new Blob(
+    ["\uFEFF" + csvContent],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "Laporan-Keuangan-SINAR.csv";
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
 
   // ================= TAMBAH =================
 
@@ -268,13 +326,33 @@ export default function LaporanPage() {
 
         <div className="bg-white text-gray-900 rounded-3xl shadow-xl p-5 md:p-6">
 
-          <div className="mb-4">
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
 
-            <h2 className="text-[30px] font-bold text-gray-800">
-              Daftar Laporan Keuangan
-            </h2>
+  <h2 className="text-[30px] font-bold text-gray-800">
+    Daftar Laporan Keuangan
+  </h2>
 
-          </div>
+  <div className="flex flex-wrap gap-3 print:hidden">
+
+    <button
+      onClick={handlePrint}
+      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-semibold"
+    >
+      <Printer size={18} />
+      Print / PDF
+    </button>
+
+    <button
+      onClick={handleExportExcel}
+      className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-3 rounded-xl font-semibold"
+    >
+      <FileSpreadsheet size={18} />
+      Export Excel
+    </button>
+
+  </div>
+
+</div>
 
           <LaporanTable
             data={data}
