@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SINAR Admin
 
-## Getting Started
+SINAR (Sistem Informasi, Ngaji dan Administrasi Rumah Ibadah) is an application built with Next.js and packaged with Docker to make building and running the application in a container easier.
 
-First, run the development server:
+## Technologies
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js
+- React
+- Prisma ORM
+- Supabase
+- Docker
+
+## Requirements
+
+- Docker Desktop
+- Docker Engine running
+
+## Build Docker Image
+
+Run the following command from the project's root directory using PowerShell:
+
+```powershell
+docker build `
+  --build-arg NEXT_PUBLIC_SUPABASE_URL="https://ecxouflvxaulcaeuccbz.supabase.co" `
+  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="YOUR_PUBLISHABLE_KEY" `
+  -t sinar-admin:week6 .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Replace `YOUR_PUBLISHABLE_KEY` with the publishable key from your Supabase project.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run the Container
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```powershell
+docker run --name sinar-admin-test -p 3000:3000 sinar-admin:week6
+```
 
-## Learn More
+Open the application in your browser:
 
-To learn more about Next.js, take a look at the following resources:
+http://localhost:3000/home
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Check the Container
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To view running containers:
 
-## Deploy on Vercel
+```powershell
+docker ps
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To stop the container:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+docker stop sinar-admin-test
+```
+
+To remove the container after stopping it:
+
+```powershell
+docker rm sinar-admin-test
+```
+
+## Testing
+
+The application was tested by running it in a Docker container and checking the following pages and features:
+
+- Home
+- Profile
+- Activity Schedule
+- Administrators
+- Financial Reports
+- Inventory
+
+Screenshots were captured as evidence of the Dockerization process.
+
+## Configuration
+
+The application requires the following Supabase environment variables:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+Use a valid Supabase publishable key or legacy anon key. Do not include secret keys in frontend code or public repositories.
+
+## Notes
+
+The Docker image used for local testing is named `sinar-admin:week6`.
